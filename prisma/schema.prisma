@@ -11,18 +11,19 @@ datasource db {
 }
 
 model Guild {
+  name           String?
   guildId        String  @unique
-  prefix         String
+  prefix         String  @default("/")
   // items
   weiId          String?
   sieraId        String?
   mokamokaId     String?
   rapportId      String?
   // channels
-  readChannelId  String?
-  writeChannelId String?
+  readChannelId  String  @default("")
+  writeChannelId String  @default("")
   // flags
-  setupFlags     Int     @db.SmallInt
+  setupFlags     Int     @default(0) @db.SmallInt
   // setupRoles      Boolean @default(false)
   // setupChannel    Boolean @default(false)
   // setupAssignment Boolean @default(false)

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Guild" ALTER COLUMN "prefix" SET DEFAULT E'/',
+ALTER COLUMN "setupFlags" SET DEFAULT 0;
