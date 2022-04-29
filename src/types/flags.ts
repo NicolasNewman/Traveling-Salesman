@@ -16,8 +16,10 @@ export default {
 	create: (...args) => args.reduce((prev, curr) => (prev |= curr)),
 	remove: (flag, ...args) =>
 		(flag &= ~args.reduce((prev, curr) => (prev |= curr))),
-	check: (flag, ...args) =>
-		flag === args.reduce((prev, curr) => (prev |= curr)),
+	check: (flag, ...args) => {
+		const combinedFlag =  args.reduce((prev, curr) => (prev |= curr));
+		return (flag & combinedFlag) === combinedFlag;
+	}
 } as FlagHelper<Flags>;
 
 export { Flags };
