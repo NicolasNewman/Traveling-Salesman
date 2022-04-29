@@ -1,8 +1,6 @@
 import { ICommand } from 'discord.js';
 
-import ping from './commands/ping';
-import server from './commands/server';
-import user from './commands/user';
+import setup from './commands/setup';
+import status from './commands/status';
 
-
-export default [ping, server, user] as ICommand[];
+export default [setup, status] as ICommand[];
