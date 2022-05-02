@@ -2,5 +2,5 @@ import { IEvent } from '../types';
 
 export default {
 	name: 'messageReactionAdd',
-	async execute(m) {},
+	async execute(reaction) {},
 } as IEvent<'messageReactionAdd'>;
