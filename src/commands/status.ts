@@ -4,18 +4,15 @@ import { handleInteractionError } from '../helper';
 import { InteractionErrorCodes } from '../types';
 
 export default {
-	data: new SlashCommandBuilder()
-		.setName('status')
-		.setDescription('Get the current config status of the bot'),
+	data: new SlashCommandBuilder().setName('status').setDescription('Get the current config status of the bot'),
 	async execute(interaction: CommandInteraction) {
 		const { logger, db } = interaction.client;
 		await interaction.deferReply({ ephemeral: true });
 
 		if (
-			(await !handleInteractionError(
-				{ replyType: 'EDIT_REPLY', interaction, logger },
-				[InteractionErrorCodes.INTERACTION_NO_GUILDID],
-			)) ||
+			(await !handleInteractionError({ replyType: 'EDIT_REPLY', interaction, logger }, [
+				InteractionErrorCodes.INTERACTION_NO_GUILDID,
+			])) ||
 			!interaction.guildId
 		) {
 			return;
@@ -40,20 +37,12 @@ export default {
 				},
 				{
 					name: 'Read Channel',
-					value: `${
-						guildData.readChannelId === ''
-							? '❌'
-							: guildData.readChannelId
-					}`,
+					value: `${guildData.readChannelId === '' ? '❌' : guildData.readChannelId}`,
 					inline: true,
 				},
 				{
 					name: 'Write Channel',
-					value: `${
-						guildData.writeChannelId === ''
-							? '❌'
-							: guildData.writeChannelId
-					}`,
+					value: `${guildData.writeChannelId === '' ? '❌' : guildData.writeChannelId}`,
 					inline: true,
 				},
 				{ name: '\u200B', value: '\u200B' },

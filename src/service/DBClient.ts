@@ -13,19 +13,12 @@ class DBClient {
 		gid: string,
 		data:
 			| Omit<
-					Prisma.Without<
-						Prisma.GuildCreateInput,
-						Prisma.GuildUncheckedCreateInput
-					> &
+					Prisma.Without<Prisma.GuildCreateInput, Prisma.GuildUncheckedCreateInput> &
 						Prisma.GuildUncheckedCreateInput,
 					'guildId'
 			  >
 			| Omit<
-					Prisma.Without<
-						Prisma.GuildUncheckedCreateInput,
-						Prisma.GuildCreateInput
-					> &
-						Prisma.GuildCreateInput,
+					Prisma.Without<Prisma.GuildUncheckedCreateInput, Prisma.GuildCreateInput> & Prisma.GuildCreateInput,
 					'guildId'
 			  >,
 		options: ErrorHandlerOptions,
@@ -37,12 +30,7 @@ class DBClient {
 				update: { ...data },
 			});
 			if (!fetchedData) {
-				await replyFactory(options)(
-					options.logger.error(
-						ErrorCodes.GUILD_NOT_FOUND,
-						'Could not find guild.',
-					),
-				);
+				await replyFactory(options)(options.logger.error(ErrorCodes.GUILD_NOT_FOUND, 'Could not find guild.'));
 			}
 			return fetchedData;
 		} catch (err) {
@@ -51,21 +39,13 @@ class DBClient {
 		}
 	};
 
-	public get = async (
-		gid: string,
-		options: ErrorHandlerOptions,
-	): Promise<Guild | null> => {
+	public get = async (gid: string, options: ErrorHandlerOptions): Promise<Guild | null> => {
 		try {
 			const data = await this.prisma.guild.findUnique({
 				where: { guildId: gid },
 			});
 			if (!data) {
-				await replyFactory(options)(
-					options.logger.error(
-						ErrorCodes.GUILD_NOT_FOUND,
-						'Could not find guild.',
-					),
-				);
+				await replyFactory(options)(options.logger.error(ErrorCodes.GUILD_NOT_FOUND, 'Could not find guild.'));
 			}
 			return data;
 		} catch (err) {

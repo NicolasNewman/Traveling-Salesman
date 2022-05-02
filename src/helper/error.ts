@@ -1,10 +1,5 @@
 import { Prisma } from '@prisma/client';
-import {
-	ErrorCodes,
-	ErrorHandlerOptions,
-	InteractableErrorHandlerOptions,
-	InteractionErrorCodes,
-} from '../types';
+import { ErrorCodes, ErrorHandlerOptions, InteractableErrorHandlerOptions, InteractionErrorCodes } from '../types';
 import { replyFactory } from './helper';
 
 const handlePrismaError = async (options: ErrorHandlerOptions) => {
@@ -12,11 +7,7 @@ const handlePrismaError = async (options: ErrorHandlerOptions) => {
 	const replyHandler = replyFactory(options);
 	if (err instanceof Prisma.PrismaClientInitializationError) {
 		await replyHandler(
-			logger.error(
-				ErrorCodes.PRISMA_INIT_ERROR,
-				'Could not connect to the database.',
-				err as Error,
-			),
+			logger.error(ErrorCodes.PRISMA_INIT_ERROR, 'Could not connect to the database.', err as Error),
 		);
 	} else if (err instanceof Prisma.PrismaClientKnownRequestError) {
 		await replyHandler(
@@ -27,9 +18,7 @@ const handlePrismaError = async (options: ErrorHandlerOptions) => {
 			),
 		);
 	} else if (err instanceof Error) {
-		await replyHandler(
-			logger.error(ErrorCodes.UNKNOWN, 'Something went wrong.', err),
-		);
+		await replyHandler(logger.error(ErrorCodes.UNKNOWN, 'Something went wrong.', err));
 	}
 };
 
@@ -44,9 +33,7 @@ const handleInteractionError = async (
 	const replyEvent = replyFactory(options);
 
 	for (const code of codes) {
-		const msg =
-			messages?.[code] ??
-			`[Error ${code}] The interaction is misformatted`;
+		const msg = messages?.[code] ?? `[Error ${code}] The interaction is misformatted`;
 		switch (code) {
 			case InteractionErrorCodes.INTERACTION_NO_GUILD: {
 				if (!options.interaction.guild) {
@@ -62,10 +49,7 @@ const handleInteractionError = async (
 			case InteractionErrorCodes.INTERACTION_NO_GUILDID:
 				if (!interaction.guildId) {
 					await replyEvent(msg);
-					logger.error(
-						InteractionErrorCodes.INTERACTION_NO_GUILDID,
-						'GuildId not attached to interaction',
-					);
+					logger.error(InteractionErrorCodes.INTERACTION_NO_GUILDID, 'GuildId not attached to interaction');
 					return false;
 				}
 				break;

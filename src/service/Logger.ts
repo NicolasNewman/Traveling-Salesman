@@ -22,21 +22,14 @@ enum LogLevel {
 	ERROR = 'error',
 }
 
-type Log = WinLogger &
-	Record<keyof typeof LogLevels['levels'], LeveledLogMethod>;
+type Log = WinLogger & Record<keyof typeof LogLevels['levels'], LeveledLogMethod>;
 
 const formatter: Format = format.combine(
 	format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-	format.printf(
-		({ level, message, timestamp }) =>
-			`[${timestamp}/${level}]: ${message}`,
-	),
+	format.printf(({ level, message, timestamp }) => `[${timestamp}/${level}]: ${message}`),
 );
 
-const colorizedFormatter: Format = format.combine(
-	format.colorize({ all: true }),
-	formatter,
-);
+const colorizedFormatter: Format = format.combine(format.colorize({ all: true }), formatter);
 
 const commonFileOptions: transports.FileTransportOptions = {
 	maxsize: 10000000,
@@ -74,11 +67,7 @@ export default class Logger {
 		}
 	};
 
-	error = (
-		errorCode: typeof ErrorCodes[keyof typeof ErrorCodes] | string,
-		message: string,
-		error?: Error,
-	) => {
+	error = (errorCode: typeof ErrorCodes[keyof typeof ErrorCodes] | string, message: string, error?: Error) => {
 		this.logger.error(message);
 		if (error) {
 			this.logger.error(error.stack);

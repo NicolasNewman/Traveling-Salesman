@@ -9,10 +9,7 @@ export default {
 			await db.prisma.guild.delete({
 				where: { guildId: guild.id },
 			});
-			logger.log(
-				'INFO',
-				`The bot was removed from guild [${guild.name}] with id [${guild.id}]`,
-			);
+			logger.log('INFO', `The bot was removed from guild [${guild.name}] with id [${guild.id}]`);
 		} catch (err) {
 			handlePrismaError({
 				replyType: 'NONE',

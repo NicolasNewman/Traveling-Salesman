@@ -9,8 +9,8 @@ import {
 	MessageSelectMenu,
 } from 'discord.js';
 
-import { handleInteractionError, isGuild } from '../helper';
-import { InteractionErrorCodes } from '../types';
+import { FlagManager, handleInteractionError, isGuild } from '../helper';
+import { Flags, InteractionErrorCodes } from '../types';
 
 const CMD_NAME = 'setup-channels';
 const READ_CHANNEL_ID = 'channel-read';
@@ -20,9 +20,7 @@ const BUTTON_FINISH_ID = 'button-finish';
 export default {
 	data: new SlashCommandBuilder()
 		.setName(CMD_NAME)
-		.setDescription(
-			'Configures the channels the bot uses to get merchant locations and send out pings.',
-		),
+		.setDescription('Configures the channels the bot uses to get merchant locations and send out pings.'),
 	async execute(interaction: CommandInteraction) {
 		const { logger, db } = interaction.client;
 		await interaction.deferReply();
@@ -64,17 +62,12 @@ export default {
 		let writeSet = false;
 		const readMenu = new MessageSelectMenu()
 			.setCustomId(READ_CHANNEL_ID)
-			.setPlaceholder(
-				'Select the channel where Saint Bot sends updates,',
-			);
+			.setPlaceholder('Select the channel where Saint Bot sends updates,');
 		const writeMenu = new MessageSelectMenu()
 			.setCustomId(WRITE_CHANNEL_ID)
 			.setPlaceholder('Select the channel where pings should be sent,');
 		const finishButton = new MessageActionRow().addComponents(
-			new MessageButton()
-				.setCustomId(BUTTON_FINISH_ID)
-				.setLabel('Finish')
-				.setStyle('DANGER'),
+			new MessageButton().setCustomId(BUTTON_FINISH_ID).setLabel('Finish').setStyle('DANGER'),
 		);
 
 		// Obtain the guild's channels and load them into the select menus
@@ -90,8 +83,7 @@ export default {
 			writeMenu.addOptions({
 				label: channel.name,
 				value: channel.id,
-				default:
-					guildData?.writeChannelId === channel.id ? true : false,
+				default: guildData?.writeChannelId === channel.id ? true : false,
 			});
 		});
 		// Create the replie's rows and send the message
@@ -105,10 +97,7 @@ export default {
 		const collector = interaction.channel
 			.createMessageComponentCollector({
 				filter: (i: MessageComponentInteraction) => {
-					return (
-						i.user.id === interaction.user.id &&
-						i.channelId === interaction.channelId
-					);
+					return i.user.id === interaction.user.id && i.channelId === interaction.channelId;
 				},
 				time: 60000,
 			})
@@ -136,8 +125,7 @@ export default {
 						}
 						components.push(finishButton);
 						i.update({
-							content:
-								'The read channel was successfully updated.',
+							content: 'The read channel was successfully updated.',
 							components,
 						});
 						await db.update(
@@ -159,8 +147,7 @@ export default {
 						}
 						components.push(finishButton);
 						i.update({
-							content:
-								'The write channel was successfully updated.',
+							content: 'The write channel was successfully updated.',
 							components,
 						});
 						await db.update(
@@ -182,6 +169,20 @@ export default {
 						}
 						collector.stop();
 					}
+				}
+				const guildData = await db.get(interaction.guildId, {
+					replyType: 'UPDATE',
+					interaction: i,
+					logger,
+				});
+				if (guildData && guildData.readChannelId !== '' && guildData.writeChannelId !== '') {
+					await db.update(
+						interaction.guildId,
+						{
+							flags: FlagManager.create(guildData.flags, Flags.SETUP_ROLE),
+						},
+						{ replyType: 'UPDATE', interaction: i, logger },
+					);
 				}
 			});
 	},

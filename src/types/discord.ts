@@ -7,10 +7,7 @@ import {
 	MessageActionRowOptions,
 } from 'discord.js';
 
-export type MessageRow = (
-	| MessageActionRow
-	| (Required<BaseMessageComponentOptions> & MessageActionRowOptions)
-)[];
+export type MessageRow = (MessageActionRow | (Required<BaseMessageComponentOptions> & MessageActionRowOptions))[];
 
 export interface IEvent<K extends keyof ClientEvents> {
 	name: K;

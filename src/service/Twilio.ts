@@ -6,10 +6,7 @@ class TwilioManager {
 	public twilio: Twilio;
 	private static instance: TwilioManager;
 	private constructor() {
-		this.twilio = new Twilio(
-			process.env.TWILIO_SID,
-			process.env.TWILIO_TOKEN,
-		);
+		this.twilio = new Twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 	}
 
 	public static getInstance = () => {

@@ -14,10 +14,7 @@ export default {
 			await command.execute(interaction);
 		} catch (error) {
 			await interaction.reply({
-				content: logger.error(
-					ErrorCodes.COMMAND_EXECUTION_ERROR,
-					'There was an issue executing the command',
-				),
+				content: logger.error(ErrorCodes.COMMAND_EXECUTION_ERROR, 'There was an issue executing the command'),
 				ephemeral: true,
 			});
 		}

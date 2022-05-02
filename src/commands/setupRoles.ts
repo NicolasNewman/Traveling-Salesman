@@ -1,14 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import {
-	CommandInteraction,
-	MessageActionRow,
-	MessageButton,
-	MessageComponentInteraction,
-	MessageSelectMenu,
-} from 'discord.js';
-
-import Client from '../service/DBClient';
-import Flag, { Flags } from '../types/flags';
+import { CommandInteraction } from 'discord.js';
 
 export default {
 	data: new SlashCommandBuilder()

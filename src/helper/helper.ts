@@ -1,8 +1,6 @@
 import { ErrorHandlerOptions } from '../types';
 
-const replyFactory = (
-	options: ErrorHandlerOptions,
-): ((content: string) => Promise<any>) => {
+const replyFactory = (options: ErrorHandlerOptions): ((content: string) => Promise<any>) => {
 	const { replyType } = options;
 	if (replyType === 'EDIT_REPLY') {
 		return (content: string) =>
