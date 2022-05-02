@@ -6,7 +6,6 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
         "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -19,14 +18,15 @@
     ],
     "rules": {
         "prettier/prettier": "error",
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        // "indent": [
+        //     "error",
+        //     "tab",
+        //     {"SwitchCase": 1}
+        // ],
+        // "linebreak-style": [
+        //     "error",
+        //     "windows"
+        // ],
         "quotes": [
             "error",
             "single"
@@ -34,6 +34,12 @@
         "semi": [
             "error",
             "always"
-        ]
-    }
+        ],
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": ["warn"]
+    },
+    "ignorePatterns": [
+        "**/node_modules/**",
+        "**/backup/**"
+    ]
 }

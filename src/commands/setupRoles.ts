@@ -12,7 +12,7 @@ import Flag, { Flags } from '../types/flags';
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('setup')
+		.setName('setup-roles')
 		.setDescription('Configures the bot to function on your server'),
 	async execute(interaction: CommandInteraction) {},
 };

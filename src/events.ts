@@ -1,9 +1,18 @@
-import { IEvent } from "discord.js";
-
-import messageCreate from './events/messageCreate';
+import ready from './events/ready';
 import interactionCreate from './events/interactionCreate';
+import messageCreate from './events/messageCreate';
+import messageReactionAdd from './events/messageReactionAdd';
+import messageReactionRemove from './events/messageReactionRemove';
 import guildCreate from './events/guildCreate';
 import channelDelete from './events/channelDelete';
-import ready from './events/ready';
+import { IEvent } from './types';
 
-export default [messageCreate, interactionCreate, guildCreate, channelDelete, ready] as IEvent<any>[]
+export default [
+	messageCreate,
+	interactionCreate,
+	guildCreate,
+	channelDelete,
+	ready,
+	messageReactionAdd,
+	messageReactionRemove,
+] as IEvent<any>[];

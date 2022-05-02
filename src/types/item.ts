@@ -1,8 +1,17 @@
-enum Item {
-	SIERA = 'Siera',
-	MOKAMOKA = 'Mokamoka',
-	WEI = 'Wei',
-	RAPPORT = 'Rapport'
-}
+import { Prisma } from '@prisma/client';
 
-export default Item;
+const Item = {
+	SIERA: 'Siera',
+	MOKAMOKA: 'Mokamoka',
+	WEI: 'Wei',
+	RAPPORT: 'Rapport',
+} as const;
+
+type ItemKey = typeof Item[keyof typeof Item];
+
+type ItemObj = {
+	idFieldName: Prisma.GuildScalarFieldEnum;
+	reaction: string;
+};
+
+export { Item, ItemObj, ItemKey };

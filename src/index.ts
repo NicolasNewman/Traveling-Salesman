@@ -1,11 +1,21 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
-import { Client, Intents, Collection } from 'discord.js'
+import { Client, Intents, Collection } from 'discord.js';
 
 import commands from './commands';
 import events from './events';
+import Logger from './service/Logger';
+import DBClient from './service/DBClient';
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({
+	intents: [
+		Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_MESSAGES,
+		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+	],
+});
+client.logger = new Logger();
+client.db = new DBClient();
 
 //==============================//
 //    Command Initialization    //

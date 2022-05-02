@@ -10,21 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Twilio {
+//   id      Int    @id @default(autoincrement())
+//   guildId String
+//   number  String
+// }
+
 model Guild {
-  name           String?
-  guildId        String  @unique
-  prefix         String  @default("/")
+  name              String?
+  guildId           String  @unique
+  prefix            String  @default("/")
   // items
-  weiId          String?
-  sieraId        String?
-  mokamokaId     String?
-  rapportId      String?
+  weiId             String?
+  sieraId           String?
+  mokamokaId        String?
+  rapportId         String?
   // channels
-  readChannelId  String  @default("")
-  writeChannelId String  @default("")
+  readChannelId     String  @default("")
+  writeChannelId    String  @default("")
   // flags
-  setupFlags     Int     @default(0) @db.SmallInt
-  // setupRoles      Boolean @default(false)
-  // setupChannel    Boolean @default(false)
-  // setupAssignment Boolean @default(false)
+  flags             Int     @default(0) @db.SmallInt
+  // reactions
+  reactionMessageId String  @default("")
 }

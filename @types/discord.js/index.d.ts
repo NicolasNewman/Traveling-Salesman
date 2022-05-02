@@ -1,17 +1,11 @@
-import { Collection } from 'discord.js'
+import { Collection } from 'discord.js';
+import Logger from '../../src/service/Logger';
+import DBClient from '../../src/service/DBClient';
 
-declare module "discord.js" {
-    interface Client {
-        commands: Collection<any, any>
-    }
-
-    export interface IEvent<K extends keyof ClientEvents> {
-        name: K
-        once?: boolean;
-        execute: (...args: ClientEvents[K]) => void;
-    }
-    export interface ICommand {
-        data: SlashCommandBuilder
-        execute: (interaction: CommandInteraction) => void
-    }
+declare module 'discord.js' {
+	interface Client {
+		commands: Collection<any, any>;
+		logger: Logger;
+		db: DBClient;
+	}
 }
