@@ -4,18 +4,19 @@ import { IEvent } from '../types';
 export default {
 	name: 'guildDelete',
 	async execute(guild) {
+		const { logger, db } = guild.client;
 		try {
-			await guild.client.db.prisma.guild.delete({
+			await db.prisma.guild.delete({
 				where: { guildId: guild.id },
 			});
-			guild.client.logger.log(
+			logger.log(
 				'INFO',
 				`The bot was removed from guild [${guild.name}] with id [${guild.id}]`,
 			);
 		} catch (err) {
 			handlePrismaError({
 				replyType: 'NONE',
-				logger: guild.client.logger,
+				logger,
 				err,
 			});
 		}

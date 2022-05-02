@@ -2,7 +2,7 @@ import { IEvent } from '../types';
 
 export default {
 	name: 'ready',
-	execute(c) {
-		console.log(`The bot is ready! ${c.user.tag}`);
+	execute(client) {
+		client.logger.log('INFO', `${client.user.tag} is ready!`);
 	},
 } as IEvent<'ready'>;
