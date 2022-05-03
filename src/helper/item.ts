@@ -14,9 +14,21 @@ const Items: { [key in ItemKey]: ItemObj } = {
 		idFieldName: Prisma.GuildScalarFieldEnum.weiId,
 		reaction: '2⃣',
 	},
-	Rapport: {
+	'Legendary Rapport': {
 		idFieldName: Prisma.GuildScalarFieldEnum.rapportId,
 		reaction: '3⃣',
+	},
+	Sian: {
+		idFieldName: Prisma.GuildScalarFieldEnum.sianId,
+		reaction: '4⃣',
+	},
+	Madnick: {
+		idFieldName: Prisma.GuildScalarFieldEnum.madnickId,
+		reaction: '5⃣',
+	},
+	Kaysarr: {
+		idFieldName: Prisma.GuildScalarFieldEnum.kaysarrId,
+		reaction: '6⃣',
 	},
 };
 

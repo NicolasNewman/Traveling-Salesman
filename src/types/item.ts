@@ -4,13 +4,19 @@ const Item = {
 	SIERA: 'Siera',
 	MOKAMOKA: 'Mokamoka',
 	WEI: 'Wei',
-	RAPPORT: 'Rapport',
+	SIAN: 'Sian',
+	MADNICK: 'Madnick',
+	KAYSARR: 'Kaysarr',
+	RAPPORT: 'Legendary Rapport',
 } as const;
 
 type ItemKey = typeof Item[keyof typeof Item];
 
 type ItemObj = {
-	idFieldName: Extract<Prisma.GuildScalarFieldEnum, 'weiId' | 'mokamokaId' | 'sieraId' | 'rapportId'>;
+	idFieldName: Extract<
+		Prisma.GuildScalarFieldEnum,
+		'weiId' | 'mokamokaId' | 'sieraId' | 'rapportId' | 'sianId' | 'madnickId' | 'kaysarrId'
+	>;
 	reaction: string;
 };
 

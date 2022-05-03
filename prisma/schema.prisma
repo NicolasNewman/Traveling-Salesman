@@ -22,6 +22,9 @@ model Guild {
   prefix            String  @default("/")
   // items
   weiId             String?
+  sianId            String?
+  kaysarrId         String?
+  madnickId         String?
   sieraId           String?
   mokamokaId        String?
   rapportId         String?
