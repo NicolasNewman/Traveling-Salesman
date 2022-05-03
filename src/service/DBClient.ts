@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma, Guild } from '@prisma/client';
 import { replyFactory, handlePrismaError } from '../helper';
-import { ErrorCodes, ErrorHandlerOptions } from '../types';
+import { ErrorCodes, ErrorHandlerOptions, GuildUpdate } from '../types';
 
 class DBClient {
 	public prisma: PrismaClient;
@@ -9,20 +9,7 @@ class DBClient {
 		this.prisma = new PrismaClient();
 	}
 
-	public update = async (
-		gid: string,
-		data:
-			| Omit<
-					Prisma.Without<Prisma.GuildCreateInput, Prisma.GuildUncheckedCreateInput> &
-						Prisma.GuildUncheckedCreateInput,
-					'guildId'
-			  >
-			| Omit<
-					Prisma.Without<Prisma.GuildUncheckedCreateInput, Prisma.GuildCreateInput> & Prisma.GuildCreateInput,
-					'guildId'
-			  >,
-		options: ErrorHandlerOptions,
-	): Promise<Guild | null> => {
+	public update = async (gid: string, data: GuildUpdate, options: ErrorHandlerOptions): Promise<Guild | null> => {
 		try {
 			const fetchedData = await this.prisma.guild.upsert({
 				where: { guildId: gid },
