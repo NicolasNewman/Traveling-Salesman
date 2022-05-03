@@ -10,7 +10,7 @@ const Item = {
 type ItemKey = typeof Item[keyof typeof Item];
 
 type ItemObj = {
-	idFieldName: Prisma.GuildScalarFieldEnum;
+	idFieldName: Extract<Prisma.GuildScalarFieldEnum, 'weiId' | 'mokamokaId' | 'sieraId' | 'rapportId'>;
 	reaction: string;
 };
 
