@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
-import { handleInteractionError } from '../helper';
+import { handleInteractionError, Items } from '../helper';
 import { InteractionErrorCodes } from '../types';
 
 export default {
@@ -46,27 +46,10 @@ export default {
 					inline: true,
 				},
 				{ name: '\u200B', value: '\u200B' },
-				{
-					name: 'Wei Role',
-					value: `${guildData.weiId ?? '❌'}`,
-					inline: true,
-				},
-				{
-					name: 'Mokamoka Role',
-					value: `${guildData.mokamokaId ?? '❌'}`,
-					inline: true,
-				},
-				{
-					name: 'Siera Role',
-					value: `${guildData.sieraId ?? '❌'}`,
-					inline: true,
-				},
-				{
-					name: 'Rapport Role',
-					value: `${guildData.sieraId ?? '❌'}`,
-					inline: true,
-				},
 			);
+		for (const [key, value] of Object.entries(Items)) {
+			embed.addField(key, guildData[value.idFieldName] ?? '❌', true);
+		}
 
 		await interaction.editReply({ embeds: [embed] });
 	},
