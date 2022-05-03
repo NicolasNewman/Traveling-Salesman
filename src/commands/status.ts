@@ -57,7 +57,7 @@ export default {
 					inline: true,
 				},
 				{
-					name: 'Sierra Role',
+					name: 'Siera Role',
 					value: `${guildData.sieraId ?? '❌'}`,
 					inline: true,
 				},
