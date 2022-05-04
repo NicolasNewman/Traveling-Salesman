@@ -94,6 +94,7 @@ export default {
 			components: [readRow, writeRow, finishButton],
 		});
 
+		// Initialize the collector which responds to dropdown / button events
 		const collector = interaction.channel
 			.createMessageComponentCollector({
 				filter: (i: MessageComponentInteraction) => {
@@ -116,10 +117,17 @@ export default {
 				) {
 					return;
 				}
+				const guildData = await db.get(interaction.guildId, {
+					replyType: 'UPDATE',
+					interaction: i,
+					logger,
+				});
+				// If the collected action was from a select menu
 				if (i.isSelectMenu()) {
 					if (i.customId === READ_CHANNEL_ID) {
 						readSet = true;
 						const components = [];
+						// If the write channel hasnt been choosen yet, add the write selection to the following message
 						if (!writeSet) {
 							components.push(writeRow);
 						}
@@ -133,7 +141,8 @@ export default {
 							{ readChannelId: i.values[0] },
 							{ replyType: 'UPDATE', interaction: i, logger },
 						);
-						if (readSet) {
+						// If the write channel was already selected we can stop the collector and delete the message
+						if (writeSet) {
 							collector.stop();
 							if ((i.message as Message).deletable) {
 								await (i.message as Message).delete();
@@ -164,17 +173,21 @@ export default {
 					}
 				} else if (i.isButton()) {
 					if (i.customId === BUTTON_FINISH_ID) {
+						if (guildData && guildData.readChannelId !== '' && guildData.writeChannelId !== '') {
+							await db.update(
+								interaction.guildId,
+								{
+									flags: FlagManager.create(guildData.flags, Flags.SETUP_ROLE),
+								},
+								{ replyType: 'UPDATE', interaction: i, logger },
+							);
+						}
 						if ((i.message as Message).deletable) {
 							await (i.message as Message).delete();
 						}
 						collector.stop();
 					}
 				}
-				const guildData = await db.get(interaction.guildId, {
-					replyType: 'UPDATE',
-					interaction: i,
-					logger,
-				});
 				if (guildData && guildData.readChannelId !== '' && guildData.writeChannelId !== '') {
 					await db.update(
 						interaction.guildId,
