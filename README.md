@@ -27,7 +27,7 @@ The following tools are needed to run the bot:
 
 ## Installation
 
-1. Clone the bot's repository to your local machine: `git clone https://github.com/NicolasNewman/Traveling-Salesman.git`
+1. Clone the bot's repository to your local machine: `git clone https://github.com/NicolasNewman/Wandering-Merchant-of-Arkesia.git`
 2. From the root of the repository, run: `yarn install`
 3. Create a .env file and enter in the following fields:
 
