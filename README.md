@@ -4,7 +4,7 @@
 
 The _Wandering Merchant of Arkesia_ is a Discord bot that runs alongside [Saint Bot](https://saint-bot.webflow.io/). It enables reading from subcribed channels from Saint Bot's official server and pinging users on your own server once a certain item is in stock. Furthermore, the bot can text users when an item of their preference is in stock. Never miss a Wei card again!
 
-# 🚧 Setup
+# 🚧 Bot Setup
 
 1. Invite the bot to your server
 2. Run `/setup-channels` to configure which channel contains the Saint Bot updates and which channel the bot should send pings
