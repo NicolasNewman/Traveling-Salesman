@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 const Item = {
-	SIERA: 'Siera',
+	SERIA: 'Seria',
 	MOKAMOKA: 'Mokamoka',
 	WEI: 'Wei',
 	SIAN: 'Sian',
@@ -15,7 +15,7 @@ type ItemKey = typeof Item[keyof typeof Item];
 type ItemObj = {
 	idFieldName: Extract<
 		Prisma.GuildScalarFieldEnum,
-		'weiId' | 'mokamokaId' | 'sieraId' | 'rapportId' | 'sianId' | 'madnickId' | 'kaysarrId'
+		'weiId' | 'mokamokaId' | 'seriaId' | 'rapportId' | 'sianId' | 'madnickId' | 'kaysarrId'
 	>;
 	reaction: string;
 };
