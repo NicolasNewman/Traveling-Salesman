@@ -52,7 +52,11 @@ export default {
 		}
 		await db.update(
 			interaction.guildId,
-			{ reactionMessageId: msg.id, flags: FlagManager.create(guildData.flags, Flags.SETUP_ASSIGNMENT) },
+			{
+				reactionMessageId: msg.id,
+				reactionChannelId: msg.channelId,
+				flags: FlagManager.create(guildData.flags, Flags.SETUP_ASSIGNMENT),
+			},
 			{ replyType: 'EDIT_REPLY', interaction, logger },
 		);
 	},
