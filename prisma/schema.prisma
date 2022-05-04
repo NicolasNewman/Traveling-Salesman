@@ -35,4 +35,5 @@ model Guild {
   flags             Int     @default(0) @db.SmallInt
   // reactions
   reactionMessageId String  @default("")
+  reactionChannelId String  @default("")
 }
