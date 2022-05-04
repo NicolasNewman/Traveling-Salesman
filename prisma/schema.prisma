@@ -25,7 +25,7 @@ model Guild {
   sianId            String?
   kaysarrId         String?
   madnickId         String?
-  sieraId           String?
+  seriaId           String?
   mokamokaId        String?
   rapportId         String?
   // channels
