@@ -48,7 +48,7 @@ export default {
 		const updateObj: GuildUpdate = {};
 		// Loop through each registered item and set up the needed DS
 		for (const [key, value] of Object.entries(Items)) {
-			const result = await checkAndCreateRole(roleManager, `${key} (ping)`, guildData[value.idFieldName]);
+			const result = await checkAndCreateRole(roleManager, key, guildData[value.idFieldName]);
 			// If the role was created, add the role's ID to the update object
 			if (result.status === 'CREATED') {
 				updateObj[value.idFieldName] = result.id;
