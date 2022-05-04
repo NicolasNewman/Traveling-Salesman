@@ -13,10 +13,22 @@ export default {
 		try {
 			await command.execute(interaction);
 		} catch (error) {
-			await interaction.reply({
-				content: logger.error(ErrorCodes.COMMAND_EXECUTION_ERROR, 'There was an issue executing the command'),
-				ephemeral: true,
-			});
+			const errorMsg = logger.error(
+				ErrorCodes.COMMAND_EXECUTION_ERROR,
+				'There was an issue executing the command',
+				error as Error,
+			);
+			if (interaction.replied) {
+				await interaction.editReply({
+					content: errorMsg,
+					components: [],
+				});
+			} else {
+				await interaction.reply({
+					content: errorMsg,
+					ephemeral: true,
+				});
+			}
 		}
 	},
 } as IEvent<'interactionCreate'>;
