@@ -1,4 +1,4 @@
-<h1 style="display: flex; justify-content: center; gap: 10px"><img src="./assets/icon_object.png" width="30px"> Wandering Merchant of Arkesia <img src="./assets/icon_object.png" width="30px"></h1>
+<h1 align="center"><img src="./assets/icon_object.png" width="30px"> Wandering Merchant of Arkesia <img src="./assets/icon_object.png" width="30px"></h1>
 
 # 📋 Intro
 
