@@ -9,14 +9,22 @@ const InteractionErrorCodes = {
 } as const;
 
 const ErrorCodes = {
+	// GENERAL
 	UNKNOWN: 400,
 	GUILD_NOT_FOUND: 401,
 	CONFIG_NOT_SET: 402,
 	REACTION_ERROR: 403,
 	COMMAND_EXECUTION_ERROR: 404,
+	// INTERACTION ERRORS
+	...InteractionErrorCodes,
+	// PRISMA ERRORS
 	PRISMA_REQUEST_ERROR: 604,
 	PRISMA_INIT_ERROR: 605,
-	...InteractionErrorCodes,
+	// NOT FOUND ERRORS
+	GUILD_MEMBER_NOT_FOUND: 705,
+	ROLE_NOT_FOUND: 706,
+	CHANNEL_NOT_FOUND: 707,
+	EMOJI_NOT_FOUND: 708,
 } as const;
 
 export type ReplyType = 'REPLY' | 'EDIT_REPLY' | 'UPDATE' | 'NONE';
