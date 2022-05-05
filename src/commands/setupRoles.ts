@@ -10,7 +10,7 @@ const checkAndCreateRole = async (
 	id: string | null,
 ): Promise<{ status: RoleCreationResult; id: string | null }> => {
 	if (id === null || id === '' || roles.cache.get(id) === undefined) {
-		const role = await roles.create({ mentionable: true, name: `${name} (ping)` });
+		const role = await roles.create({ mentionable: true, name: `${name} (Ping)` });
 		return role ? { status: 'CREATED', id: role.id } : { status: 'FAILED', id: null };
 	}
 	return { status: 'OK', id };
