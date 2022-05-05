@@ -32,4 +32,16 @@ const Items: { [key in ItemKey]: ItemObj } = {
 	},
 };
 
-export { Items };
+const ReactionToItem = (id: string | null) => {
+	if (id === null) return null;
+
+	for (const [key, value] of Object.entries(Items)) {
+		if (value.reaction.includes(id)) {
+			return key as ItemKey;
+		}
+	}
+
+	return null;
+};
+
+export { Items, ReactionToItem };
