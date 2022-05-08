@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma, Guild } from '@prisma/client';
+import { PrismaClient, Guild } from '@prisma/client';
 import { replyFactory, handlePrismaError } from '../helper';
 import { ErrorCodes, ErrorHandlerOptions, GuildUpdate } from '../types';
 
