@@ -10,11 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Twilio {
-//   id      Int    @id @default(autoincrement())
-//   guildId String
-//   number  String
-// }
+model Contact {
+  id         Int     @id @default(autoincrement())
+  guildId    String
+  userId     String
+  number     String
+  weiId      Boolean @default(false)
+  sianId     Boolean @default(false)
+  kaysarrId  Boolean @default(false)
+  madnickId  Boolean @default(false)
+  seriaId    Boolean @default(false)
+  mokamokaId Boolean @default(false)
+  rapportId  Boolean @default(false)
+}
 
 model Guild {
   name              String?
