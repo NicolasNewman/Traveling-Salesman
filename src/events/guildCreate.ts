@@ -9,7 +9,7 @@ export default {
 			await db.prisma.guild.create({
 				data: { guildId: guild.id, name: guild.name },
 			});
-			logger.log('INFO', `The bot was added to guild [${guild.name}] with id [${guild.id}]`);
+			logger.log('INFO', 'The bot was added to a guild', { guildName: guild.name, loc: this.name });
 		} catch (err) {
 			handlePrismaError({
 				replyType: 'NONE',

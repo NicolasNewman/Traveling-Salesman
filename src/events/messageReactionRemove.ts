@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import { getGuildMemberOrFetch, Items, ReactionToItem } from '../helper';
-import { ErrorCodes, IEvent } from '../types';
+import { FlagManager, getGuildMemberOrFetch, Items, ReactionToItem } from '../helper';
+import { ErrorCodes, Flags, IEvent } from '../types';
 
 export default {
 	name: 'messageReactionRemove',
@@ -13,7 +13,16 @@ export default {
 			if (!guildData) {
 				return;
 			}
+
 			if (guildData.reactionMessageId === reaction.message.id) {
+				if (!FlagManager.check(guildData.flags, Flags.SETUP_ROLE, Flags.SETUP_ASSIGNMENT)) {
+					logger.error(
+						ErrorCodes.CONFIG_NOT_SET,
+						'The flags for either SETUP_ROLE or SETUP_ASSIGNMENT are not set. Cannot update roles from this reaction',
+						{ guildName: reaction.message.guild.name, loc: this.name },
+					);
+					return;
+				}
 				// Get the guild member from the reaction's user info
 				const guildMember = await getGuildMemberOrFetch(reaction.message.guild.members, user.id);
 				if (guildMember) {
@@ -26,7 +35,10 @@ export default {
 							// Remove the role
 							guildMember.roles.remove(roleId);
 						} else {
-							logger.error(ErrorCodes.ROLE_NOT_FOUND, `No role for (${itemName}) was found`);
+							logger.error(ErrorCodes.ROLE_NOT_FOUND, `No role for (${itemName}) was found`, {
+								guildName: reaction.message.guild.name,
+								loc: this.name,
+							});
 							user.send(
 								`I'm sorry, there was an issue removing the ${itemName} role to you in ${reaction.message.guild.name}. Please try again later or ask an admin to remove it manually.`,
 							);
@@ -35,6 +47,7 @@ export default {
 						logger.error(
 							ErrorCodes.EMOJI_NOT_FOUND,
 							`Couldn't find the corresponding item for emoji id (${reaction.emoji.id})`,
+							{ guildName: reaction.message.guild.name, loc: this.name },
 						);
 						user.send(
 							`I'm sorry, there was an issue removing a role to you in ${reaction.message.guild.name}. Please try again later or ask an admin to remove it manually.`,
@@ -44,6 +57,7 @@ export default {
 					logger.error(
 						ErrorCodes.GUILD_MEMBER_NOT_FOUND,
 						`Guild member (${user.tag}) not found on guild (${reaction.message.guild.name})`,
+						{ guildName: reaction.message.guild.name, loc: this.name },
 					);
 					user.send(
 						`I'm sorry, there was an issue removing a role to you in ${reaction.message.guild.name}. Please try again later or ask an admin to remove it manually.`,

@@ -16,7 +16,7 @@ export default {
 			const errorMsg = logger.error(
 				ErrorCodes.COMMAND_EXECUTION_ERROR,
 				'There was an issue executing the command',
-				error as Error,
+				{ error: error as Error, guildName: interaction.guild?.name, loc: this.name },
 			);
 			if (interaction.replied) {
 				await interaction.editReply({

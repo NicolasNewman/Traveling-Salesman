@@ -26,7 +26,13 @@ type Log = WinLogger & Record<keyof typeof LogLevels['levels'], LeveledLogMethod
 
 const formatter: Format = format.combine(
 	format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-	format.printf(({ level, message, timestamp }) => `[${timestamp}/${level}]: ${message}`),
+	format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] }),
+	format.printf(({ level, message, timestamp, metadata }) => {
+		const guildName = metadata?.metadata?.guildName;
+		const loc = metadata?.metadata?.loc;
+		const meta = `${loc ? `/${loc}` : ''}${guildName ? `/${guildName}` : ''}`;
+		return `[${timestamp}/${level}${meta}]: ${message}`;
+	}),
 );
 
 const colorizedFormatter: Format = format.combine(format.colorize({ all: true }), formatter);
@@ -53,24 +59,28 @@ export default class Logger {
 		});
 	}
 
-	log = (level: keyof typeof LogLevel, message: string) => {
+	log = (level: keyof typeof LogLevel, message: string, opts?: { guildName?: string; loc?: string }) => {
 		switch (level) {
 			case 'INFO':
-				this.logger.info(message);
+				this.logger.info(message, { guildName: opts?.guildName, loc: opts?.loc });
 				break;
 			case 'WARN':
-				this.logger.warn(message);
+				this.logger.warn(message, { guildName: opts?.guildName, loc: opts?.loc });
 				break;
 			case 'ERROR':
-				this.logger.error(message);
+				this.logger.error(message, { guildName: opts?.guildName, loc: opts?.loc });
 				break;
 		}
 	};
 
-	error = (errorCode: typeof ErrorCodes[keyof typeof ErrorCodes] | string, message: string, error?: Error) => {
-		this.logger.error(message);
-		if (error) {
-			this.logger.error(error.stack);
+	error = (
+		errorCode: typeof ErrorCodes[keyof typeof ErrorCodes] | string,
+		message: string,
+		opts?: { error?: Error; guildName?: string; loc?: string },
+	) => {
+		this.logger.error(message, { guildName: opts?.guildName, loc: opts?.loc });
+		if (opts?.error) {
+			this.logger.error(opts.error.stack ?? '', { guildName: opts?.guildName, loc: opts?.loc });
 		}
 		return `[Error ${errorCode}] ${message}`;
 	};

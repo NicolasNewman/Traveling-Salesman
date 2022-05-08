@@ -23,31 +23,31 @@ export default {
 							fetchedChannel.messages
 								.fetch(guild.reactionMessageId)
 								.then((_fetchedMessage) => {
-									logger.log(
-										'INFO',
-										`Successfully fetched reaction message for guild (${guild.name})`,
-									);
+									logger.log('INFO', 'Successfully fetched reaction message', {
+										guildName: fetchedGuild.name,
+										loc: this.name,
+									});
 								})
-								.catch((err) =>
+								.catch((error) =>
 									logger.error(
 										ErrorCodes.UNKNOWN,
-										`An error occurd while fetching the reaction message for guild (${guild.name})`,
-										err,
+										'An error occurd while fetching the reaction message',
+										{ error, guildName: fetchedGuild.name, loc: this.name },
 									),
 								);
 						} else {
-							logger.error(
-								ErrorCodes.CHANNEL_NOT_FOUND,
-								`Could not find the reaction channel for guild (${guild.name})`,
-							);
+							logger.error(ErrorCodes.CHANNEL_NOT_FOUND, 'Could not find the reaction channel', {
+								guildName: fetchedGuild.name,
+								loc: this.name,
+							});
 						}
 					})
-					.catch((err) =>
-						logger.error(
-							ErrorCodes.UNKNOWN,
-							`An error occurd while fetching the guild (${guild.name})`,
-							err,
-						),
+					.catch((error) =>
+						logger.error(ErrorCodes.UNKNOWN, 'An error occurd while fetching the guild', {
+							error,
+							guildName: guild.name as string | undefined,
+							loc: this.name,
+						}),
 					);
 			}
 		});
