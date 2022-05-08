@@ -3,22 +3,18 @@ import { ErrorCodes, ErrorHandlerOptions, InteractableErrorHandlerOptions, Inter
 import { replyFactory } from './helper';
 
 const handlePrismaError = async (options: ErrorHandlerOptions) => {
-	const { logger, err } = options;
+	const { logger, err: error } = options;
 	const replyHandler = replyFactory(options);
-	if (err instanceof Prisma.PrismaClientInitializationError) {
+	if (error instanceof Prisma.PrismaClientInitializationError) {
+		await replyHandler(logger.error(ErrorCodes.PRISMA_INIT_ERROR, 'Could not connect to the database.', { error }));
+	} else if (error instanceof Prisma.PrismaClientKnownRequestError) {
 		await replyHandler(
-			logger.error(ErrorCodes.PRISMA_INIT_ERROR, 'Could not connect to the database.', err as Error),
+			logger.error(ErrorCodes.PRISMA_REQUEST_ERROR, 'Could not successfully fetch data from the database.', {
+				error,
+			}),
 		);
-	} else if (err instanceof Prisma.PrismaClientKnownRequestError) {
-		await replyHandler(
-			logger.error(
-				ErrorCodes.PRISMA_REQUEST_ERROR,
-				'Could not successfully fetch data from the database.',
-				err as Error,
-			),
-		);
-	} else if (err instanceof Error) {
-		await replyHandler(logger.error(ErrorCodes.UNKNOWN, 'Something went wrong.', err));
+	} else if (error instanceof Error) {
+		await replyHandler(logger.error(ErrorCodes.UNKNOWN, 'Something went wrong.', { error }));
 	}
 };
 
